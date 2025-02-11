@@ -1,2 +1,5 @@
-# CMake
-build/default/
+# Build
+build/
+
+# clangd
+.cache

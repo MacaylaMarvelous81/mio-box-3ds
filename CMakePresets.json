@@ -10,9 +10,10 @@
       "displayName": "Default Config",
       "description": "Default build with devkitpro's cmake toolchain file and Ninja generator",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/default",
+      "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "$env{DEVKITPRO}/cmake/3DS.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "$env{DEVKITPRO}/cmake/3DS.cmake",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
       }
     }
   ]
