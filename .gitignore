@@ -1,5 +1,2 @@
-# Build outputs
-build/
-*.3dsx
-*.elf
-*.smdh
+# CMake
+build/default/
