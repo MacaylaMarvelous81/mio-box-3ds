@@ -4,6 +4,8 @@ project(mio-box-3ds LANGUAGES C VERSION 1.0.0)
 
 add_executable(${PROJECT_NAME}
   source/main.c
+
+  source/screens/main.c
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE
