@@ -24,7 +24,10 @@ ctr_add_graphics_target(gfx ATLAS
     -f rgba -z auto -H gfx.h
   INPUTS
     gfx/cartridge.png
-    gfx/bubble-left.png
+    gfx/cartridge-sel.png
+    gfx/bubble-cartridge.png
+    gfx/bubble-cartridge-sel.png
+    gfx/btn-check.png
 )
 
 add_dependencies(${PROJECT_NAME} gfx)

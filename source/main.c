@@ -14,7 +14,10 @@
 
 C2D_TextBuf textBuf;
 
+C2D_SpriteSheet spriteSheet;
+
 int main(int argc, char *argv[]) {
+  romfsInit();
   gfxInitDefault();
   gfxSet3D(true);
   C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
@@ -32,6 +35,12 @@ int main(int argc, char *argv[]) {
                             DISPLAY_TRANSFER_FLAGS);
 
   textBuf = C2D_TextBufNew(4096);
+
+  spriteSheet = C2D_SpriteSheetLoad("romfs:/gfx.t3x");
+  if (!spriteSheet)
+    svcBreak(USERBREAK_PANIC);
+
+  mainOpen();
 
   // Main loop
   while (aptMainLoop()) {
@@ -74,9 +83,11 @@ int main(int argc, char *argv[]) {
   }
 
   C2D_TextBufDelete(textBuf);
+  C2D_SpriteSheetFree(spriteSheet);
 
   C2D_Fini();
   C3D_Fini();
   gfxExit();
+  romfsExit();
   return 0;
 }
