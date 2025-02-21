@@ -3,7 +3,6 @@
 #include <citro2d.h>
 #include <gfx.h>
 
-extern C2D_TextBuf textBuf;
 extern C2D_SpriteSheet spriteSheet;
 
 C2D_Image imgCartridge;
