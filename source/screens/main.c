@@ -3,6 +3,8 @@
 #include <citro2d.h>
 #include <gfx.h>
 
+#define BETWEEN(min, x, max) (min < x && x < max)
+
 extern C2D_SpriteSheet spriteSheet;
 
 typedef enum {
@@ -55,12 +57,15 @@ void mainUpdate() {
   touchPosition touch;
   hidTouchRead(&touch);
 
-  if (touch.px > 80 && touch.px < 114 && touch.py > 100 && touch.py < 128) {
-    selection = SELECTION_CARTRIDGE;
-  } else if (touch.px > 180 && touch.px < 209 && touch.py > 100 &&
-             touch.py < 130) {
-    selection = SELECTION_SD_CARD;
+  if (BETWEEN(258, touch.px, 258 + images[IMG_BUTTON_CHECK].subtex->width) &&
+      BETWEEN(213, touch.py, 213 + images[IMG_BUTTON_CHECK].subtex->height)) {
   }
+  if (BETWEEN(80, touch.px, 80 + images[IMG_CARTRIDGE].subtex->width) &&
+      BETWEEN(100, touch.py, 100 + images[IMG_CARTRIDGE].subtex->height))
+    selection = SELECTION_CARTRIDGE;
+  if (BETWEEN(180, touch.px, 180 + images[IMG_SD_CARD].subtex->width) &&
+      BETWEEN(100, touch.py, 100 + images[IMG_SD_CARD].subtex->height))
+    selection = SELECTION_SD_CARD;
 }
 
 void mainDrawTop(float iod) {}
@@ -68,8 +73,6 @@ void mainDrawTop(float iod) {}
 void mainDrawBottom() {
   C2D_Prepare();
 
-  C2D_DrawRectangle(0, 0, 0, 320, 240, 0xc62828ff, 0xc62828ff, 0xc62828ff,
-                    0xc62828ff);
   C2D_DrawImageAt(images[IMG_BUTTON_CHECK], 258, 213, 0, NULL, 1.0f, 1.0f);
   C2D_DrawImageAt(images[selection == SELECTION_CARTRIDGE ? IMG_CARTRIDGE_SEL
                                                           : IMG_CARTRIDGE],
