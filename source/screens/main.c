@@ -5,15 +5,18 @@
 
 extern C2D_SpriteSheet spriteSheet;
 
-C2D_Image imgCartridge;
-C2D_Image imgCartridgeSel;
-C2D_Image imgSdCard;
-C2D_Image imgSdCardSel;
-C2D_Image imgBubbleCartridge;
-C2D_Image imgBubbleCartridgeSel;
-C2D_Image imgBubbleSdCard;
-C2D_Image imgBubbleSdCardSel;
-C2D_Image imgBtnCheck;
+typedef enum {
+  IMG_CARTRIDGE,
+  IMG_CARTRIDGE_SEL,
+  IMG_SD_CARD,
+  IMG_SD_CARD_SEL,
+  IMG_BUBBLE_CARTRIDGE,
+  IMG_BUBBLE_CARTRIDGE_SEL,
+  IMG_BUBBLE_SD_CARD,
+  IMG_BUBBLE_SD_CARD_SEL,
+  IMG_BUTTON_CHECK,
+  IMG_MAX,
+} ImageIndex;
 
 typedef enum {
   SELECTION_CARTRIDGE,
@@ -21,24 +24,29 @@ typedef enum {
   SELECTION_DOUJINSOFT,
 } Selection;
 
+C2D_Image images[IMG_MAX];
 Selection selection;
 
 void mainOpen() {
   // TODO: Maybe use the same image file for variants like a spritesheet,
   // instead of separate files like 'default' and 'select'
-  imgCartridge = C2D_SpriteSheetGetImage(spriteSheet, gfx_cartridge_idx);
-  imgCartridgeSel = C2D_SpriteSheetGetImage(spriteSheet, gfx_cartridge_sel_idx);
-  imgSdCard = C2D_SpriteSheetGetImage(spriteSheet, gfx_sd_card_idx);
-  imgSdCardSel = C2D_SpriteSheetGetImage(spriteSheet, gfx_sd_card_sel_idx);
-  imgBubbleCartridge =
+  images[IMG_CARTRIDGE] =
+      C2D_SpriteSheetGetImage(spriteSheet, gfx_cartridge_idx);
+  images[IMG_CARTRIDGE_SEL] =
+      C2D_SpriteSheetGetImage(spriteSheet, gfx_cartridge_sel_idx);
+  images[IMG_SD_CARD] = C2D_SpriteSheetGetImage(spriteSheet, gfx_sd_card_idx);
+  images[IMG_SD_CARD_SEL] =
+      C2D_SpriteSheetGetImage(spriteSheet, gfx_sd_card_sel_idx);
+  images[IMG_BUBBLE_CARTRIDGE] =
       C2D_SpriteSheetGetImage(spriteSheet, gfx_bubble_cartridge_idx);
-  imgBubbleCartridgeSel =
+  images[IMG_BUBBLE_CARTRIDGE_SEL] =
       C2D_SpriteSheetGetImage(spriteSheet, gfx_bubble_cartridge_sel_idx);
-  imgBubbleSdCard =
+  images[IMG_BUBBLE_SD_CARD] =
       C2D_SpriteSheetGetImage(spriteSheet, gfx_bubble_sd_card_idx);
-  imgBubbleSdCardSel =
+  images[IMG_BUBBLE_SD_CARD_SEL] =
       C2D_SpriteSheetGetImage(spriteSheet, gfx_bubble_sd_card_sel_idx);
-  imgBtnCheck = C2D_SpriteSheetGetImage(spriteSheet, gfx_btn_check_idx);
+  images[IMG_BUTTON_CHECK] =
+      C2D_SpriteSheetGetImage(spriteSheet, gfx_btn_check_idx);
 
   selection = SELECTION_CARTRIDGE;
 }
@@ -62,17 +70,19 @@ void mainDrawBottom() {
 
   C2D_DrawRectangle(0, 0, 0, 320, 240, 0xc62828ff, 0xc62828ff, 0xc62828ff,
                     0xc62828ff);
-  C2D_DrawImageAt(selection == SELECTION_CARTRIDGE ? imgCartridgeSel
-                                                   : imgCartridge,
+  C2D_DrawImageAt(images[IMG_BUTTON_CHECK], 258, 213, 0, NULL, 1.0f, 1.0f);
+  C2D_DrawImageAt(images[selection == SELECTION_CARTRIDGE ? IMG_CARTRIDGE_SEL
+                                                          : IMG_CARTRIDGE],
                   80, 100, 0, NULL, 1.0f, 1.0f);
-  C2D_DrawImageAt(selection == SELECTION_CARTRIDGE ? imgBubbleCartridgeSel
-                                                   : imgBubbleCartridge,
-                  30, 70, 0, NULL, 1.0f, 1.0f);
-  C2D_DrawImageAt(imgBtnCheck, 258, 213, 0, NULL, 1.0f, 1.0f);
-  C2D_DrawImageAt(selection == SELECTION_SD_CARD ? imgSdCardSel : imgSdCard,
-                  180, 100, 0, NULL, 1.0f, 1.0f);
-  C2D_DrawImageAt(selection == SELECTION_SD_CARD ? imgBubbleSdCardSel
-                                                 : imgBubbleSdCard,
+  C2D_DrawImageAt(
+      images[selection == SELECTION_CARTRIDGE ? IMG_BUBBLE_CARTRIDGE_SEL
+                                              : IMG_BUBBLE_CARTRIDGE],
+      30, 70, 0, NULL, 1.0f, 1.0f);
+  C2D_DrawImageAt(
+      images[selection == SELECTION_SD_CARD ? IMG_SD_CARD_SEL : IMG_SD_CARD],
+      180, 100, 0, NULL, 1.0f, 1.0f);
+  C2D_DrawImageAt(images[selection == SELECTION_SD_CARD ? IMG_BUBBLE_SD_CARD_SEL
+                                                        : IMG_BUBBLE_SD_CARD],
                   120, 70, 0, NULL, 1.0f, 1.0f);
 
   C2D_Flush();
