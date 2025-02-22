@@ -7,8 +7,12 @@ extern C2D_SpriteSheet spriteSheet;
 
 C2D_Image imgCartridge;
 C2D_Image imgCartridgeSel;
+C2D_Image imgSdCard;
+C2D_Image imgSdCardSel;
 C2D_Image imgBubbleCartridge;
 C2D_Image imgBubbleCartridgeSel;
+C2D_Image imgBubbleSdCard;
+C2D_Image imgBubbleSdCardSel;
 C2D_Image imgBtnCheck;
 
 typedef enum {
@@ -24,16 +28,32 @@ void mainOpen() {
   // instead of separate files like 'default' and 'select'
   imgCartridge = C2D_SpriteSheetGetImage(spriteSheet, gfx_cartridge_idx);
   imgCartridgeSel = C2D_SpriteSheetGetImage(spriteSheet, gfx_cartridge_sel_idx);
+  imgSdCard = C2D_SpriteSheetGetImage(spriteSheet, gfx_sd_card_idx);
+  imgSdCardSel = C2D_SpriteSheetGetImage(spriteSheet, gfx_sd_card_sel_idx);
   imgBubbleCartridge =
       C2D_SpriteSheetGetImage(spriteSheet, gfx_bubble_cartridge_idx);
   imgBubbleCartridgeSel =
       C2D_SpriteSheetGetImage(spriteSheet, gfx_bubble_cartridge_sel_idx);
+  imgBubbleSdCard =
+      C2D_SpriteSheetGetImage(spriteSheet, gfx_bubble_sd_card_idx);
+  imgBubbleSdCardSel =
+      C2D_SpriteSheetGetImage(spriteSheet, gfx_bubble_sd_card_sel_idx);
   imgBtnCheck = C2D_SpriteSheetGetImage(spriteSheet, gfx_btn_check_idx);
 
   selection = SELECTION_CARTRIDGE;
 }
 
-void mainUpdate() {}
+void mainUpdate() {
+  touchPosition touch;
+  hidTouchRead(&touch);
+
+  if (touch.px > 80 && touch.px < 114 && touch.py > 100 && touch.py < 128) {
+    selection = SELECTION_CARTRIDGE;
+  } else if (touch.px > 180 && touch.px < 209 && touch.py > 100 &&
+             touch.py < 130) {
+    selection = SELECTION_SD_CARD;
+  }
+}
 
 void mainDrawTop(float iod) {}
 
@@ -49,6 +69,11 @@ void mainDrawBottom() {
                                                    : imgBubbleCartridge,
                   30, 70, 0, NULL, 1.0f, 1.0f);
   C2D_DrawImageAt(imgBtnCheck, 258, 213, 0, NULL, 1.0f, 1.0f);
+  C2D_DrawImageAt(selection == SELECTION_SD_CARD ? imgSdCardSel : imgSdCard,
+                  180, 100, 0, NULL, 1.0f, 1.0f);
+  C2D_DrawImageAt(selection == SELECTION_SD_CARD ? imgBubbleSdCardSel
+                                                 : imgBubbleSdCard,
+                  120, 70, 0, NULL, 1.0f, 1.0f);
 
   C2D_Flush();
 }

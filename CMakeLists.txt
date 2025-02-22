@@ -19,21 +19,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_link_libraries(${PROJECT_NAME} citro2d citro3d)
 
-ctr_add_graphics_target(gfx ATLAS
-  OPTIONS
-    -f rgba -z auto -H gfx.h
-  INPUTS
-    gfx/cartridge.png
-    gfx/cartridge-sel.png
-    gfx/bubble-cartridge.png
-    gfx/bubble-cartridge-sel.png
-    gfx/btn-check.png
-)
-
-add_dependencies(${PROJECT_NAME} gfx)
-
 dkp_add_asset_target(romfs ${CMAKE_CURRENT_BINARY_DIR}/romfs)
-dkp_install_assets(romfs TARGETS gfx)
+
+include(cmake/gfx.cmake)
 
 ctr_generate_smdh(${PROJECT_NAME}.smdh
   NAME "${PROJECT_NAME}"
